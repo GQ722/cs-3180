@@ -16,7 +16,7 @@ class Board(object):
         board_letters = ''.join(self.board_letters)
         board_letters.replace('Q', 'QU')
         # Below there be magic (compares board letters to words in dictionary)
-        valid = re.compile('[' + board_letters + ']{3,}$', re.I).match
+        valid = re.compile('[' + board_letters + ']{4,}$', re.I).match
         words = set(word for word in self.dictionary if valid(word))
         score = 0
         for word in words:
