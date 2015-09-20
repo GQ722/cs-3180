@@ -95,12 +95,18 @@ class Board(object):
         computer_words, computer_score = self.computer_move()
         print('Player\'s words: ')
         for k, v in player_words.iteritems():
-            print str(v).rjust(3), k.rjust(10)
+            print str(v).ljust(5), k.ljust(25)
         print('Player\'s total score: ' + str(player_score))
         print('Computer\'s words: ')
         for k, v in computer_words.iteritems():
-            print str(v).rjust(3), k.rjust(10)
+            print str(v).ljust(5), k.ljust(25)
         print('Computer\'s total score: ' + str(computer_score))
+        if player_score > computer_score:
+            print('Player wins!')
+        elif computer_score > player_score:
+            print('Computer wins!')
+        else:
+            print('Tie! You both lose.')
 
     def player_move(self):
         user_input = raw_input('Enter as many distinct words from the board ' +
