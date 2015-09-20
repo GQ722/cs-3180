@@ -19,9 +19,12 @@ class Board(object):
         valid = re.compile('[' + board_letters + ']{4,}$', re.I).match
         words = set(word for word in self.dictionary if valid(word))
         score = 0
+        score_dict = {}
         for word in words:
-            score += self.score_word(word)
-        return words, score
+            word_score = self.score_word(word)
+            score += word_score
+            score_dict[word] = word_score
+        return score_dict, score
 
     def display_board(self):
         for i in range(0, self.board_height):
@@ -90,21 +93,28 @@ class Board(object):
         self.display_board()
         player_words, player_score = self.player_move()
         computer_words, computer_score = self.computer_move()
-        print('Player\'s words: ' + ', '.join(player_words))
-        print('Player\'s score: ' + str(player_score))
-        print('Computer\'s words: ' + ', '.join(computer_words))
-        print('Computer\'s score: ' + str(computer_score))
+        print('Player\'s words: ')
+        for k, v in player_words.iteritems():
+            print str(v).rjust(3), k.rjust(10)
+        print('Player\'s total score: ' + str(player_score))
+        print('Computer\'s words: ')
+        for k, v in computer_words.iteritems():
+            print str(v).rjust(3), k.rjust(10)
+        print('Computer\'s total score: ' + str(computer_score))
 
     def player_move(self):
         user_input = raw_input('Enter as many distinct words from the board ' +
                                'as possible, separated by spaces: ')
         words = user_input.split(' ')
         score = 0
+        score_dict = {}
         for word in words:
             word = word.upper()
             if self.is_word(word) and self.is_legal(word):
-                score += self.score_word(word)
-        return words, score
+                word_score = self.score_word(word)
+                score += word_score
+                score_dict[word] = word_score
+        return score_dict, score
 
     @staticmethod
     def score_word(word):
