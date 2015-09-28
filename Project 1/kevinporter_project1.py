@@ -3,6 +3,7 @@ import os
 import random
 import re
 import string
+from collections import Counter
 
 
 class Board(object):
@@ -16,8 +17,9 @@ class Board(object):
         board_letters = ''.join(self.board_letters)
         board_letters.replace('Q', 'QU')
         # Below there be magic (compares board letters to words in dictionary)
-        valid = re.compile('[' + board_letters + ']{4,}$', re.I).match
-        words = set(word for word in self.dictionary if valid(word))
+        valid = re.compile('^[' + board_letters + ']{4,}$', re.I).match
+        words = list(word for word in self.dictionary if valid(word) and
+                     self.is_legal(word))
         score = 0
         score_dict = {}
         for word in words:
@@ -67,6 +69,15 @@ class Board(object):
         random.shuffle(board_list)
         return board_list
 
+    def is_legal(self, word):
+        is_legal = False
+        to_compare = word.replace('QU', 'Q')
+        to_compare = list(to_compare)
+        if (Counter(to_compare) & Counter(self.board_letters) ==
+                Counter(to_compare)):
+            is_legal = True
+        return is_legal
+
     def is_word(self, word):
         is_word = False
         if word in self.dictionary:
@@ -79,15 +90,6 @@ class Board(object):
             is_word = True
         '''
         return is_word
-
-    def is_legal(self, word):
-        is_legal = False
-        to_compare = word.replace('QU', 'Q')
-        to_compare = list(to_compare)
-        if (set(to_compare) & set(self.board_letters) ==
-                set(to_compare)):
-            is_legal = True
-        return is_legal
 
     def play(self):
         self.display_board()
