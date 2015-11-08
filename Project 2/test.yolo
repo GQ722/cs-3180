@@ -1,0 +1,12 @@
+# this is a comment
+swag my_variable = 10
+holla my_variable
+holla 7
+swag another_variable = 'test'
+holla another_variable
+another_variable = 'yooo'
+holla another_variable
+swag my_list = [1, 2, 3,]
+naenae i in my_list
+holla i
+groovy
