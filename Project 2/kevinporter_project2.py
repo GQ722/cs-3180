@@ -2,6 +2,10 @@
 Kevin Porter
 Project 2
 CS-3180
+
+To run the interpreter, simply type 'python kevinporter_project2.py' followed by
+the name of the file you want to run. (e.g.,
+'python kevinporter_project2.py test2.yolo').
 """
 
 import ast
