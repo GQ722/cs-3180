@@ -81,9 +81,22 @@ class myclass
 swag variableOne = 1
 swag variableTwo = 2
 fun something
-aasdfasdfasdf
+holla 'test'
 nuf
 ratchet
 class ass be a myclass
 swag variableOne = 2
+fun something
+holla 'anothertest'
+nuf
 ratchet
+
+yo ass call something
+
+swag mystring = 'a'
+swag anotherstring = 'b'
+mystring = mystring + anotherstring
+holla mystring
+holla '\n'
+mystring == anotherstring
+mystring == mystring

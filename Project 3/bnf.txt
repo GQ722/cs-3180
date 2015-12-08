@@ -1,0 +1,16 @@
+<string> ::= "'" <text> "'"
+<integer> ::= <integer>
+<literal> ::= <integer> | <string>
+<comment> ::= "#" <text>
+<variable> ::= <text>|<text>|<integer>
+<+> ::= "+"
+<-> ::= "-"
+<*> ::= "*"
+<list-part> ::= <literal>","|<literal>","<whitespace>|<literal>","<list-part>|<literal>","<whitespace><list-part>
+<list> ::= "["<list-part>"]"
+<declare-variable> ::= "swag"<whitespace><variable> "=" <literal>|"swag"<whitespace><variable> "=" <list>
+<print> ::= "holla"<whitespace><literal>|"holla"<whitespace><variable>
+<shuffle> ::= "shuffle(" <variable> ")"
+<random> ::= "random(" <integer> ")"|"random(" <integer> "," <integer> ")"|"random(" <variable> ")"
+<loop> ::= "naenae"<whitespace><variable><whitespace> "in" <whitespace> <variable>
+<end-loop> ::= "groovy"

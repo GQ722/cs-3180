@@ -1,0 +1,51 @@
+# Kevin Porter
+# Test program for Project 3
+
+# YOLO has been updated to reflect the requirements of the new project.
+# String concatenation, basic classes, and functions are now possible.
+
+class myClass
+swag variableOne = 1
+swag variableTwo = 2
+
+fun printHello
+holla 'hello\n'
+nuf
+
+fun printHelloWorld
+holla 'Hello world!\n'
+nuf
+ratchet
+
+yo myClass call printHello
+yo myClass call printHelloWorld
+
+class theBourgeoisie be a myClass
+swag variableOne = 2
+swag variableTwo = 1
+
+fun printHello
+holla 'Polymorphism!\n'
+nuf
+ratchet
+
+yo theBourgeoisie call printHello
+yo theBourgeoisie call printHelloWorld
+
+# Let's concatenate some strings.
+
+swag stringOne = 'stringOne'
+swag stringTwo = 'stringTwo'
+swag stringThree = ''
+stringThree = stringOne + stringTwo
+
+holla stringThree
+holla '\n'
+
+# Are strings one and two equal?
+stringOne == stringTwo
+
+# Nope. How about string one with itself?
+stringOne == stringOne
+
+# That's the ticket.

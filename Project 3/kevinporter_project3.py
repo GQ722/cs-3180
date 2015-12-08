@@ -1,11 +1,37 @@
 """
 Kevin Porter
-Project 2
+Project 3
 CS-3180
 
 To run the interpreter, simply type 'python kevinporter_project2.py' followed by
 the name of the file you want to run. (e.g.,
-'python kevinporter_project2.py test2.yolo').
+'python kevinporter_project2.py test.yolo').
+
+test.yolo is the preferred test program, though test2 is provided as well.
+"""
+
+"""
+YOLO operates as follows:
+
+    swag : variable declarator
+    literal : list[], int, or string''
+    variable : alphanumeric beginning with alphabetic
+    # : begin comment
+    + : add a literal and a variable or two variables
+    - : subtract a literal and a variable or two variables
+    * : multiply a literal and a variable or two variables
+    [<literal>, ] : a list
+    swag <variable> = <literal> : declare a variable
+    holla : print a literal or a variable
+    shuffle(<variable>) : shuffle the contents of a list
+    random(<integer> | <integer>, <integer> | <variable>) : get a random in range
+    naenae : begin loop
+    groovy : end loop
+    class <variable> : declare a class
+    ratchet : end class declaration
+    fun <variable> : declare a function
+    nuf <variable> : end function declaration
+    <variable> == <variable> : compare two variables
 """
 
 import ast
@@ -36,7 +62,6 @@ class Program(object):
         print('ERROR: ' + s + ' [Line ' + str(self.line_ptr + 1) + ']'),
         return
 
-
     def addition(self, scanner, token):
         values = token.split('+')
         values = [i.replace(' ', '') for i in values]
@@ -57,10 +82,8 @@ class Program(object):
         value = values[0] + values[1]
         return value
 
-
     def end_obj(self, scanner, token):
         self.classy = False
-
 
     def obj(self, scanner, token):
         def obj_variable(scanner, token):
@@ -75,7 +98,6 @@ class Program(object):
                      }
                 }
                 self.variables[name] = d
-            print self.variables[name]
 
         def obj_function(scanner, token):
             token = token.split()
@@ -103,7 +125,7 @@ class Program(object):
                     if r:
                         break
         end_obj = r'(\s*\b(ratchet)\b)'
-        value = r'\s*(\'{0,1}[^\[].*\'{0,1}[^\[])'
+        value = r'(\s*(\'{0,1}[^\[=](.*)\'{0,1}[^\[=]))'
         variable_declarator = r'(\s*\bswag\b)'
         variable = r'\s*\b[_A-Za-z]+[_A-Za-z0-9]*\b'
         assignment_operator = r'\s*='
@@ -137,10 +159,8 @@ class Program(object):
             else:
                 break
 
-
     def comment(self, scanner, token):
         return
-
 
     def create_update_variable(self, scanner, token):
         assignment = token.split()
@@ -185,10 +205,24 @@ class Program(object):
         except:
             self.variables[name] = value
 
-
     def end_loop(self, scanner, token):
         self.looping = False
 
+    def call_function(self, scanner, token):
+        end_function = r'(nuf)'
+        token = token.split()
+        try:
+            line = self.variables[token[1]]['functions'][token[-1]]
+        except:
+            self.error('Bad function call.')
+            return
+        begin_at = line
+        nastiness = list(enumerate(self.file))
+        for line_ptr, line in itertools.islice(nastiness, begin_at, len(nastiness)):
+            self.parse(line)
+            r = re.match(end_function, line)
+            if r:
+                break
 
     def loop(self, scanner, token):
         self.looping = True
@@ -226,7 +260,6 @@ class Program(object):
                         break
                 self.looping = True
 
-
     def multiplication(self, scanner, token):
         values = token.split('*')
         values = [i.replace(' ', '') for i in values]
@@ -246,7 +279,6 @@ class Program(object):
                         self.error('Bad multiplication.')
         value = values[0] * values[1]
         return value
-
 
     def print_command(self, scanner, token):
         token = token.split()
@@ -321,6 +353,12 @@ class Program(object):
             return
         return val
 
+    def string_compare(self, scanner, token):
+        token = token.split()
+        first = self.variables[token[0]]
+        second = self.variables[token[-1]]
+        print(first == second)
+
     def subtraction(self, scanner, token):
         values = token.split('-')
         values = [i.replace(' ', '') for i in values]
@@ -347,7 +385,7 @@ class Program(object):
         variable_declarator = r'(\s*\bswag\b)'
         variable = r'(\s*(\b[_A-Za-z]+[_A-Za-z0-9]*\b))'
         assignment_operator = r'\s*(=)'
-        value = r'(\s*(\'{0,1}[^\[](.*)\'{0,1}[^\[]))'
+        value = r'(\s*(\'{0,1}[^\[=](.*)\'{0,1}[^\[=]))'
         list_obj = r'(\s*\[(\s*(\b.*\b),\s*)*\])'
         print_command = r'^(\s*\bholla\b)'
         ratchet = r'(\s*\b(ratchet)\b)'
@@ -361,6 +399,8 @@ class Program(object):
         subtraction = r'(' + r'|'.join([variable, value]) + r')\s*\-\s*(' + '|'.join([variable, value]) + r')'
         multiplication = r'(' + r'|'.join([variable, value]) + r')\s*\*\s*(' + '|'.join([variable, value]) + r')'
         obj = r'(class) (\w+)( (be a) (\w+))?'
+        call_function = r'\s*(yo)\s+' + variable + r'\s+(call)\s+' + variable
+        string_compare = variable + r'\s+==\s+' + variable
         scanner = re.Scanner([
                               (comment, self.comment),
                               (variable_cu, self.create_update_variable),
@@ -375,6 +415,8 @@ class Program(object):
                               (subtraction, self.subtraction),
                               (multiplication, self.multiplication),
                               (obj, self.obj),
+                              (string_compare, self.string_compare),
+                              (call_function, self.call_function),
                               (r'\s*', None),
                               (r'\z', None),
         ])
@@ -387,7 +429,6 @@ class Program(object):
             if line_ptr > self.line_ptr:
                 self.line_ptr = line_ptr
                 self.parse(line)
-        print self.variables
 
 def main(filename):
     program = Program()
