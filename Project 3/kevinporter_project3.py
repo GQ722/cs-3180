@@ -74,8 +74,27 @@ class Program(object):
                      }
                 }
                 self.variables[name] = d
+
         def obj_function(scanner, token):
-            pass
+            token = token.split()
+            try:
+                self.variables[name]['functions'][token[-1]] = self.line_ptr
+            except:
+                d = {
+                     'functions': {
+                                    token[-1]: self.line_ptr
+                     }
+                }
+                self.variables[name] = d
+            self.line_ptr = self.line_ptr + 1
+            begin_at = self.line_ptr
+            nastiness = list(enumerate(self.file))
+            for line_ptr, line in itertools.islice(nastiness, begin_at, len(nastiness)):
+                if self.classy:
+                    self.line_ptr = line_ptr
+                    r = re.match(end_function, line)
+                    if r:
+                        break
         end_obj = r'(\s*\b(ratchet)\b)'
         value = r'\s*(\'{0,1}[^\[].*\'{0,1}[^\[])'
         variable_declarator = r'(\s*\bswag\b)'
@@ -83,6 +102,7 @@ class Program(object):
         assignment_operator = r'\s*='
         variable_cu = (variable_declarator + r'*' + variable + assignment_operator + value)
         function = r'(fun) ' + variable
+        end_function = r'(nuf)'
         values = token.split()
         name = values[1]
         superclass = values[:-1] if 'be' in values else None
