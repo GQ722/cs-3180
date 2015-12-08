@@ -1,0 +1,83 @@
+# Kevin Porter
+# CS-3180 Project 2
+# Test Program
+
+# I named my language 'YOLO'. I decided to have a little fun I guess.
+
+# To run the interpreter, simply type 'python kevinporter_project2.py' followed by
+# the name of the file you want to run. (e.g.,
+# 'python kevinporter_project2.py test2.yolo').
+
+
+# First we get our list of available characters.
+
+swag consonants = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', ]
+swag vowels = ['A', 'E', 'I', 'O', 'U', ]
+swag num_of_vowels = random(6, 12)
+# random number of vowels
+swag random_vowel = random(vowels)
+swag board = [random_vowel, ]
+# loop through appending the vowels to the list
+naenae i in num_of_vowels
+swag random_vowel = random(vowels)
+swag new_item = [random_vowel, ]
+board = board + new_item
+groovy
+swag num_of_consonants = 25 - num_of_vowels
+# fill the rest of the list with consonants
+naenae i in num_of_consonants
+swag random_consonant = random(consonants)
+swag new_item = [random_consonant, ]
+board = board + new_item
+groovy
+# print out our board
+# I was having some issues with nested loops, so I fudged it a little.
+swag num_of_rows = 5
+board = shuffle(board)
+holla '|---|---|---|---|---|\n'
+swag index = 0
+holla '| '
+naenae i in num_of_rows
+holla board[index]
+holla ' | '
+index = index + 1
+groovy
+holla '\n'
+holla '|---|---|---|---|---|\n'
+holla '| '
+naenae i in num_of_rows
+holla board[index]
+holla ' | '
+index = index + 1
+groovy
+holla '\n'
+holla '|---|---|---|---|---|\n'
+holla '| '
+naenae i in num_of_rows
+holla board[index]
+holla ' | '
+index = index + 1
+groovy
+holla '\n'
+holla '|---|---|---|---|---|\n'
+holla '| '
+naenae i in num_of_rows
+holla board[index]
+holla ' | '
+index = index + 1
+groovy
+holla '\n'
+holla '|---|---|---|---|---|\n'
+holla '| '
+naenae i in num_of_rows
+holla board[index]
+holla ' | '
+index = index + 1
+groovy
+holla '\n'
+holla '|---|---|---|---|---|\n'
+
+class myclass
+swag variableOne = 1
+swag variableTwo = 2
+ratchet
