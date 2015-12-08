@@ -66,6 +66,7 @@ class Program(object):
         def obj_variable(scanner, token):
             token = token.split()
             try:
+                self.variables[name]
                 self.variables[name]['variables'][token[1]] = token[-1]
             except:
                 d = {
@@ -74,11 +75,17 @@ class Program(object):
                      }
                 }
                 self.variables[name] = d
+            print self.variables[name]
 
         def obj_function(scanner, token):
             token = token.split()
             try:
-                self.variables[name]['functions'][token[-1]] = self.line_ptr
+                self.variables[name]
+                try:
+                    self.variables[name]['functions'][token[-1]] = self.line_ptr
+                except:
+                    d = {token[-1]: self.line_ptr}
+                    self.variables[name]['functions'] = d
             except:
                 d = {
                      'functions': {
@@ -105,7 +112,7 @@ class Program(object):
         end_function = r'(nuf)'
         values = token.split()
         name = values[1]
-        superclass = values[:-1] if 'be' in values else None
+        superclass = values[-1] if 'be' in values else None
         if superclass:
             # the class must implemement a superclass that already exists
             superclass_items = find_in(self.variables, superclass)
@@ -113,12 +120,7 @@ class Program(object):
                 self.error('Superclass does not exist.')
                 return
             else:
-                variables = superclass_items['variables']
-                functions = superclass_items['functions']
-                self.variables[name] = {
-                                        'variables': variables,
-                                        'functions': functions
-                }
+                self.variables[name] = self.variables[superclass]
         self.classy = True
         self.line_ptr = self.line_ptr + 1
         begin_at = self.line_ptr
